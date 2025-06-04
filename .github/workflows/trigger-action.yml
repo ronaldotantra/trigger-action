@@ -1,0 +1,17 @@
+name: Trigger Backend Action
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger workflow Backend
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ vars.PAT_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/ronaldotantra/triggered-action/actions/workflows/triggered-action.yml/dispatches \
+            -d '{"ref":"main"}'
